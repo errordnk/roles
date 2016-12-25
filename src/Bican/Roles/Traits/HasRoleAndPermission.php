@@ -29,7 +29,7 @@ trait HasRoleAndPermission
      */
     public function roles()
     {
-        return $this->belongsToMany(config('roles.models.role'))->withTimestamps();
+        return $this->belongsToMany(config('roles.models.role'), 'role_user', 'user_id', 'role_id')->withTimestamps();
     }
 
     /**
@@ -49,7 +49,7 @@ trait HasRoleAndPermission
      * @param bool $all
      * @return bool
      */
-    public function is($role, $all = false)
+    public function pass($role, $all = false)
     {
         if ($this->isPretendEnabled()) {
             return $this->pretend('is');
@@ -167,7 +167,7 @@ trait HasRoleAndPermission
         return $permissionModel::select(['permissions.*', 'permission_role.created_at as pivot_created_at', 'permission_role.updated_at as pivot_updated_at'])
                 ->join('permission_role', 'permission_role.permission_id', '=', 'permissions.id')->join('roles', 'roles.id', '=', 'permission_role.role_id')
                 ->whereIn('roles.id', $this->getRoles()->pluck('id')->toArray()) ->orWhere('roles.level', '<', $this->level())
-                ->groupBy(['permissions.id', 'pivot_created_at', 'pivot_updated_at']);
+                ->groupBy(['permissions.id', 'permissions.name', 'permissions.slug', 'permissions.description', 'permissions.model', 'permissions.created_at', 'permissions.updated_at', 'pivot_created_at', 'pivot_updated_at']);
     }
 
     /**
@@ -177,7 +177,7 @@ trait HasRoleAndPermission
      */
     public function userPermissions()
     {
-        return $this->belongsToMany(config('roles.models.permission'))->withTimestamps();
+        return $this->belongsToMany(config('roles.models.permission'), 'permission_user', 'user_id', 'permission_id')->withTimestamps();
     }
 
     /**
@@ -197,7 +197,7 @@ trait HasRoleAndPermission
      * @param bool $all
      * @return bool
      */
-    public function can($permission, $all = false)
+    public function may($permission, $all = false)
     {
         if ($this->isPretendEnabled()) {
             return $this->pretend('can');
