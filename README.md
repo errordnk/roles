@@ -242,11 +242,14 @@ You can check for multiple permissions the same way as roles. You can make use o
 
 ### Permissions Inheriting
 
-Role with higher level is inheriting permission from roles with lower level.
+Role with lower level is inheriting permission from roles with higher level.
 
 There is an example of this `magic`:
 
-You have three roles: `user`, `moderator` and `admin`. User has a permission to read articles, moderator can manage comments and admin can create articles. User has a level 1, moderator level 2 and admin level 3. It means, moderator and administrator has also permission to read articles, but administrator can manage comments as well.
+You have three roles: `user`, `moderator` and `admin`. 
+User has a permission to read articles, moderator can manage comments and admin can create articles. 
+User has a level 3, moderator level 2 and admin level 1. 
+It means, moderator and administrator has also permission to read articles, but administrator can manage comments as well.
 
 > If you don't want permissions inheriting feature in you application, simply ignore `level` parameter when you're creating roles.
 
