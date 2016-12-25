@@ -36,7 +36,7 @@ Pull this package in through Composer (file `composer.json`).
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
-        "bican/roles": "2.1.*"
+        "errordnk/roles": "2.1.*"
     }
 }
 ```
@@ -141,26 +141,18 @@ $user->detachAllRoles(); // in case you want to detach all roles
 You can now check if the user has required role.
 
 ```php
-if ($user->is('admin')) { // you can pass an id or slug
+if ($user->pass('admin')) { // you can pass an id or slug
     // or alternatively $user->hasRole('admin')
-}
-```
-
-You can also do this:
-
-```php
-if ($user->isAdmin()) {
-    //
 }
 ```
 
 And of course, there is a way to check for multiple roles:
 
 ```php
-if ($user->is('admin|moderator')) { 
+if ($user->pass('admin|moderator')) { 
     /*
     | Or alternatively:
-    | $user->is('admin, moderator'), $user->is(['admin', 'moderator']),
+    | $user->pass('admin, moderator'), $user->pass(['admin', 'moderator']),
     | $user->isOne('admin|moderator'), $user->isOne('admin, moderator'), $user->isOne(['admin', 'moderator'])
     */
 
@@ -170,7 +162,7 @@ if ($user->is('admin|moderator')) {
 if ($user->is('admin|moderator', true)) {
     /*
     | Or alternatively:
-    | $user->is('admin, moderator', true), $user->is(['admin', 'moderator'], true),
+    | $user->pass('admin, moderator', true), $user->pass(['admin', 'moderator'], true),
     | $user->isAll('admin|moderator'), $user->isAll('admin, moderator'), $user->isAll(['admin', 'moderator'])
     */
 
@@ -183,14 +175,12 @@ if ($user->is('admin|moderator', true)) {
 When you are creating roles, there is optional parameter `level`. It is set to `1` by default, but you can overwrite it and then you can do something like this:
  
 ```php
-if ($user->level() > 4) {
+if ($user->level() < 4) {
     //
 }
 ```
 
-> If user has multiple roles, method `level` returns the highest one.
-
-`Level` has also big effect on inheriting permissions. About it later.
+> If user has multiple roles, method `level` returns the smallest one.
 
 ### Creating Permissions
 
@@ -237,14 +227,9 @@ $user->detachAllPermissions();
 ### Checking For Permissions
 
 ```php
-if ($user->can('create.users') { // you can pass an id or slug
+if ($user->may('create.users') { // you can pass an id or slug
     //
 }
-
-if ($user->canDeleteUsers()) {
-    //
-}
-```
 
 You can check for multiple permissions the same way as roles. You can make use of additional methods like `canOne`, `canAll` or `hasPermission`.
 
@@ -354,7 +339,7 @@ $router->post('/example', [
 
 $router->get('/example', [
     'as' => 'example',
-    'middleware' => 'level:2', // level >= 2
+    'middleware' => 'level:2', // level <= 2
     'uses' => 'ExampleController@index',
 ]);
 ```
