@@ -87,12 +87,18 @@ And also run migrations.
 Include `HasRoleAndPermission` trait and also implement `HasRoleAndPermission` contract inside your `User` model.
 
 ```php
+namespace App;
+
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Errordnk\Roles\Traits\HasRoleAndPermission;
 use Errordnk\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract, HasRoleAndPermissionContract
+class User extends Authenticatable implements HasRoleAndPermissionContract
 {
-    use Authenticatable, CanResetPassword, HasRoleAndPermission;
+    use Notifiable, HasRoleAndPermission;
+    ...
+}
 ```
 
 And that's it!
