@@ -40,31 +40,7 @@ return [
     */
 
     'models' => [
-        'role' => Bican\Roles\Models\Role::class,
-        'permission' => Bican\Roles\Models\Permission::class,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Roles, Permissions and Allowed "Pretend"
-    |--------------------------------------------------------------------------
-    |
-    | You can pretend or simulate package behavior no matter what is in your
-    | database. It is really useful when you are testing you application.
-    | Set up what will methods is(), can() and allowed() return.
-    |
-    */
-
-    'pretend' => [
-
-        'enabled' => false,
-
-        'options' => [
-            'is' => true,
-            'can' => true,
-            'allowed' => true,
-        ],
-
-    ],
-
+        'role' => Errordnk\Roles\Models\Role::class,
+        'permission' => Errordnk\Roles\Models\Permission::class,
+    ]
 ];
