@@ -1,6 +1,6 @@
 # Roles And Permissions For Laravel 5
 
-Powerful package for handling roles and permissions in Laravel 5 (5.1 and also 5.0).
+Powerful package for handling roles and permissions in Laravel 5 (5.3, 5.2, 5.1 and also 5.0).
 
 - [Installation](#installation)
     - [Composer](#composer)
